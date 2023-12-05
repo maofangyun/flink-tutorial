@@ -30,7 +30,7 @@ public class KeyedProcessTimerDemo {
 
 
         SingleOutputStreamOperator<WaterSensor> sensorDS = env
-                .socketTextStream("hadoop102", 7777)
+                .socketTextStream("106.75.237.210", 9999)
                 .map(new WaterSensorMapFunction())
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy
@@ -39,7 +39,7 @@ public class KeyedProcessTimerDemo {
                 );
 
 
-        KeyedStream<WaterSensor, String> sensorKS = sensorDS.keyBy(sensor -> sensor.getId());
+        KeyedStream<WaterSensor, String> sensorKS = sensorDS.keyBy(WaterSensor::getId);
 
         // TODO Process:keyed
         SingleOutputStreamOperator<String> process = sensorKS.process(
@@ -71,8 +71,8 @@ public class KeyedProcessTimerDemo {
 
 
                         // 3、获取 process的 当前watermark
-//                        long currentWatermark = timerService.currentWatermark();
-//                        System.out.println("当前数据=" + value + ",当前watermark=" + currentWatermark);
+                        long currentWatermark = timerService.currentWatermark();
+                        System.out.println("当前数据=" + value + ",当前watermark=" + currentWatermark);
 
 
 

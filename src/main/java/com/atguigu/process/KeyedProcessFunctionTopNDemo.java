@@ -33,7 +33,7 @@ public class KeyedProcessFunctionTopNDemo {
 
 
         SingleOutputStreamOperator<WaterSensor> sensorDS = env
-                .socketTextStream("hadoop102", 7777)
+                .socketTextStream("106.75.237.210", 9999)
                 .map(new WaterSensorMapFunction())
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy
@@ -58,7 +58,7 @@ public class KeyedProcessFunctionTopNDemo {
 
         // 1. 按照 vc 分组、开窗、聚合（增量计算+全量打标签）
         //  开窗聚合后，就是普通的流，没有了窗口信息，需要自己打上窗口的标记 windowEnd
-        SingleOutputStreamOperator<Tuple3<Integer, Integer, Long>> windowAgg = sensorDS.keyBy(sensor -> sensor.getVc())
+        SingleOutputStreamOperator<Tuple3<Integer, Integer, Long>> windowAgg = sensorDS.keyBy(WaterSensor::getVc)
                 .window(SlidingEventTimeWindows.of(Time.seconds(10), Time.seconds(5)))
                 .aggregate(
                         new VcCountAgg(),

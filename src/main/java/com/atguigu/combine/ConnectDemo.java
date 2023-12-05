@@ -22,7 +22,7 @@ public class ConnectDemo {
 //        DataStreamSource<String> source2 = env.fromElements("a", "b", "c");
 
         SingleOutputStreamOperator<Integer> source1 = env
-                .socketTextStream("hadoop102", 7777)
+                .socketTextStream("106.75.237.210", 9999)
                 .map(i -> Integer.parseInt(i));
 
         DataStreamSource<String> source2 = env.socketTextStream("hadoop102", 8888);

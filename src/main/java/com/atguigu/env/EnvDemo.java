@@ -37,7 +37,7 @@ public class EnvDemo {
 
 
         env
-//                .socketTextStream("hadoop102", 7777)
+//                .socketTextStream("106.75.237.210", 9999)
                 .readTextFile("input/word.txt")
                 .flatMap(
                         (String value, Collector<Tuple2<String, Integer>> out) -> {

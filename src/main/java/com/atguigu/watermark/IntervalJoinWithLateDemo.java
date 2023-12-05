@@ -28,13 +28,10 @@ public class IntervalJoinWithLateDemo {
         env.setParallelism(1);
 
         SingleOutputStreamOperator<Tuple2<String, Integer>> ds1 = env
-                .socketTextStream("hadoop102", 7777)
-                .map(new MapFunction<String, Tuple2<String, Integer>>() {
-                    @Override
-                    public Tuple2<String, Integer> map(String value) throws Exception {
-                        String[] datas = value.split(",");
-                        return Tuple2.of(datas[0], Integer.valueOf(datas[1]));
-                    }
+                .socketTextStream("106.75.237.210", 9999)
+                .map((MapFunction<String, Tuple2<String, Integer>>) value -> {
+                    String[] datas = value.split(",");
+                    return Tuple2.of(datas[0], Integer.valueOf(datas[1]));
                 })
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy
@@ -44,13 +41,10 @@ public class IntervalJoinWithLateDemo {
 
 
         SingleOutputStreamOperator<Tuple3<String, Integer, Integer>> ds2 = env
-                .socketTextStream("hadoop102", 8888)
-                .map(new MapFunction<String, Tuple3<String, Integer, Integer>>() {
-                    @Override
-                    public Tuple3<String, Integer, Integer> map(String value) throws Exception {
-                        String[] datas = value.split(",");
-                        return Tuple3.of(datas[0], Integer.valueOf(datas[1]), Integer.valueOf(datas[2]));
-                    }
+                .socketTextStream("106.75.237.210", 8888)
+                .map((MapFunction<String, Tuple3<String, Integer, Integer>>) value -> {
+                    String[] datas = value.split(",");
+                    return Tuple3.of(datas[0], Integer.valueOf(datas[1]), Integer.valueOf(datas[2]));
                 })
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy

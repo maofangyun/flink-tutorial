@@ -27,11 +27,11 @@ public class WindowAggregateAndProcessDemo {
 
 
         SingleOutputStreamOperator<WaterSensor> sensorDS = env
-                .socketTextStream("hadoop102", 7777)
+                .socketTextStream("106.75.237.210", 9999)
                 .map(new WaterSensorMapFunction());
 
 
-        KeyedStream<WaterSensor, String> sensorKS = sensorDS.keyBy(sensor -> sensor.getId());
+        KeyedStream<WaterSensor, String> sensorKS = sensorDS.keyBy(WaterSensor::getId);
 
         // 1. 窗口分配器
         WindowedStream<WaterSensor, String, TimeWindow> sensorWS = sensorKS.window(TumblingProcessingTimeWindows.of(Time.seconds(10)));

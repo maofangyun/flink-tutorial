@@ -32,7 +32,7 @@ public class KeyedMapStateDemo {
 
 
         SingleOutputStreamOperator<WaterSensor> sensorDS = env
-                .socketTextStream("hadoop102", 7777)
+                .socketTextStream("106.75.237.210", 9999)
                 .map(new WaterSensorMapFunction())
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy

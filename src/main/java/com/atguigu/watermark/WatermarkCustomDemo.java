@@ -33,7 +33,7 @@ public class WatermarkCustomDemo {
 
 
         SingleOutputStreamOperator<WaterSensor> sensorDS = env
-                .socketTextStream("hadoop102", 7777)
+                .socketTextStream("106.75.237.210", 9999)
                 .map(new WaterSensorMapFunction());
 
         WatermarkStrategy<WaterSensor> watermarkStrategy = WatermarkStrategy
@@ -50,7 +50,7 @@ public class WatermarkCustomDemo {
         SingleOutputStreamOperator<WaterSensor> sensorDSwithWatermark = sensorDS.assignTimestampsAndWatermarks(watermarkStrategy);
 
 
-        sensorDSwithWatermark.keyBy(sensor -> sensor.getId())
+        sensorDSwithWatermark.keyBy(WaterSensor::getId)
                 .window(TumblingEventTimeWindows.of(Time.seconds(10)))
                 .process(
                         new ProcessWindowFunction<WaterSensor, String, String, TimeWindow>() {

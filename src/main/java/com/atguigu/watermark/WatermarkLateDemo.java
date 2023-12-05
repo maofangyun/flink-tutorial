@@ -29,7 +29,7 @@ public class WatermarkLateDemo {
 
 
         SingleOutputStreamOperator<WaterSensor> sensorDS = env
-                .socketTextStream("hadoop102", 7777)
+                .socketTextStream("106.75.237.210", 9999)
                 .map(new WaterSensorMapFunction());
 
         WatermarkStrategy<WaterSensor> watermarkStrategy = WatermarkStrategy
@@ -41,8 +41,9 @@ public class WatermarkLateDemo {
 
         OutputTag<WaterSensor> lateTag = new OutputTag<>("late-data", Types.POJO(WaterSensor.class));
 
-        SingleOutputStreamOperator<String> process = sensorDSwithWatermark.keyBy(sensor -> sensor.getId())
+        SingleOutputStreamOperator<String> process = sensorDSwithWatermark.keyBy(WaterSensor::getId)
                 .window(TumblingEventTimeWindows.of(Time.seconds(10)))
+                // 事件时间
                 .allowedLateness(Time.seconds(2)) // 推迟2s关窗
                 .sideOutputLateData(lateTag) // 关窗后的迟到数据，放入侧输出流
                 .process(

@@ -30,13 +30,14 @@ public class WatermarkIdlenessDemo {
 
         // 自定义分区器：数据%分区数，只输入奇数，都只会去往map的一个子任务
         SingleOutputStreamOperator<Integer> socketDS = env
-                .socketTextStream("hadoop102", 7777)
+                .socketTextStream("106.75.237.210", 9999)
                 .partitionCustom(new MyPartitioner(), r -> r)
-                .map(r -> Integer.parseInt(r))
+                .map(Integer::parseInt)
                 .assignTimestampsAndWatermarks(
                         WatermarkStrategy
                                 .<Integer>forMonotonousTimestamps()
                                 .withTimestampAssigner((r, ts) -> r * 1000L)
+                                // 防止某一个分区一直没有数据,导致这个分区水印一直无法更新,由于水印的传播机制,从而所有的分区都无法更新水印
                                 .withIdleness(Duration.ofSeconds(5))  //空闲等待5s
                 );
 

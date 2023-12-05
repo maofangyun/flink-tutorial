@@ -24,7 +24,7 @@ public class PartitionDemo {
 
         env.setParallelism(2);
 
-        DataStreamSource<String> socketDS = env.socketTextStream("hadoop102", 7777);
+        DataStreamSource<String> socketDS = env.socketTextStream("106.75.237.210", 9999);
 
         // shuffle随机分区: random.nextInt(下游算子并行度)
 //        socketDS.shuffle().print();

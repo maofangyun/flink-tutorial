@@ -25,7 +25,7 @@ public class SideOutputDemo {
         env.setParallelism(1);
 
         SingleOutputStreamOperator<WaterSensor> sensorDS = env
-                .socketTextStream("hadoop102", 7777)
+                .socketTextStream("106.75.237.210", 9999)
                 .map(new WaterSensorMapFunction());
 
 

@@ -41,7 +41,7 @@ public class IntervalJoinDemo {
         SingleOutputStreamOperator<Tuple3<String, Integer, Integer>> ds2 = env
                 .fromElements(
                         Tuple3.of("a", 1, 1),
-                        Tuple3.of("a", 11, 1),
+                        Tuple3.of("a", 4, 1),
                         Tuple3.of("b", 2, 1),
                         Tuple3.of("b", 12, 1),
                         Tuple3.of("c", 14, 1),

@@ -19,7 +19,7 @@ public class RichFunctionDemo {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.createLocalEnvironmentWithWebUI(new Configuration());
         env.setParallelism(2);
 
-        DataStreamSource<String> source = env.socketTextStream("hadoop102", 7777);
+        DataStreamSource<String> source = env.socketTextStream("106.75.237.210", 9999);
         SingleOutputStreamOperator<Integer> map = source.map(new RichMapFunction<String, Integer>() {
 
             @Override
